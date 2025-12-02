@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Yamazone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  </head>
+  <body>
+    <header class="top-nav">
+      <div class="logo-area" onclick="window.location.href='/'" style="cursor: pointer;">
+        <span class="logo-main">Yamazone</span>
+      </div>
+      <div class="location">
+        <span class="location-icon">📍</span>
+        <div class="location-text">
+          <span class="small">Deliver to</span>
+          <span class="bold">Your Location</span>
+        </div>
+      </div>
+      <div class="search-bar">
+        <select class="search-dropdown">
+          <option>All</option>
+          <option>Electronics</option>
+          <option>Home &amp; Office</option>
+          <option>Sports</option>
+        </select>
+        <input id="searchInput" type="text" placeholder="Search Yamazone" />
+        <button id="searchBtn" class="search-submit">🔍</button>
+      </div>
+      <div class="account" onclick="window.location.href='/login'">
+        <span class="small">Hello, sign in</span>
+        <span class="bold">Account &amp; Lists</span>
+      </div>
+      <div class="returns">
+        <span class="small">Returns</span>
+        <span class="bold">&amp; Orders</span>
+      </div>
+      <div class="cart-icon" id="cartIcon">
+        🛒
+        <span id="cartCount">0</span>
+      </div>
+    </header>
+
+    <nav class="sub-nav">
+      <div class="left">
+        <span>All</span>
+        <span>Today's Deals</span>
+        <span>Customer Service</span>
+        <span>Gift Cards</span>
+        <span>Sell</span>
+      </div>
+      <div class="right">
+        <span class="prime-badge">Prime Day • Live</span>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-banner">
+        <div class="hero-text">
+          <h1>Yamazone</h1>
+          <p>Shop millions of products with fast, free delivery</p>
+          <button id="personalizeBtn" class="hero-btn">Explore Deals ⚡</button>
+        </div>
+      </div>
+    </section>
+
+    <main class="content">
+      <section class="deal-strip">
+        <h2>Today’s Lightning Picks for You</h2>
+        <div class="deal-list" id="personalizedDeals">
+          {% for p in featured %}
+          <article class="deal-card" data-id="{{ p.id }}">
+            <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy" />
+            <div class="deal-info">
+              <span class="tag">{{ p.tag }}</span>
+              <h3>{{ p.name }}</h3>
+              <p class="price">₹{{ '%.2f'|format(p.price) }}</p>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="product-grid-section">
+        <div class="section-header">
+          <h2>Inspired by Yamazone's best sellers</h2>
+          <span class="hint">Click a product for quick view</span>
+        </div>
+        <div class="product-grid" id="productGrid">
+          {% for p in products %}
+          <article class="product-card" data-id="{{ p.id }}">
+            <div class="img-wrapper">
+              <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy" />
+              <span class="badge">{{ p.tag }}</span>
+            </div>
+            <h3>{{ p.name }}</h3>
+            <p class="rating">
+              ⭐ {{ '%.1f'|format(p.rating) }} <span class="reviews">({{ p.reviews }} ratings)</span>
+            </p>
+            <p class="price">
+              <span class="currency">₹</span>{{ '%.2f'|format(p.price) }}
+              <span class="deal-label">Deal</span>
+            </p>
+            <div class="actions">
+              <button class="btn-add" data-id="{{ p.id }}">Add to Cart</button>
+              <button class="btn-buy" data-id="{{ p.id }}">Buy Now</button>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <button class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+        Back to top
+      </button>
+      <div class="footer-links">
+        <div>
+          <h4>Get to Know Us</h4>
+          <a href="#">About</a>
+          <a href="#">Careers</a>
+          <a href="#">Press</a>
+        </div>
+        <div>
+          <h4>Make Money with Us</h4>
+          <a href="#">Sell on Yamazone</a>
+          <a href="#">Affiliate Program</a>
+        </div>
+        <div>
+          <h4>Let Us Help You</h4>
+          <a href="#">Your Account</a>
+          <a href="#">Shipping Rates</a>
+          <a href="#">Help</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="logo-main">Yamazone</span>
+        <span class="copy">© 2025 Inspired demo experience</span>
+      </div>
+    </footer>
+
+    <div id="cartDrawer" class="cart-drawer hidden">
+      <div class="cart-header">
+        <h2>Your Cart</h2>
+        <button id="closeCart">✕</button>
+      </div>
+      <div id="cartItems"></div>
+      <div class="cart-summary">
+        <span>Subtotal (<span id="cartItemsCount">0</span> items):</span>
+        <span class="cart-total">₹<span id="cartTotal">0.00</span></span>
+        <button id="proceedToCheckout">Proceed to Buy</button>
+      </div>
+    </div>
+
+    <div id="quickViewModal" class="modal hidden">
+      <div class="modal-content">
+        <button class="modal-close" id="closeQuickView">✕</button>
+        <div class="modal-body">
+          <div class="modal-image">
+            <img id="modalImg" src="" alt="" />
+          </div>
+          <div class="modal-info">
+            <h2 id="modalTitle"></h2>
+            <p id="modalCategory" class="modal-category"></p>
+            <p id="modalRating" class="modal-rating"></p>
+            <p id="modalPrice" class="modal-price"></p>
+            <p id="modalDesc" class="modal-desc"></p>
+            <div class="modal-actions">
+              <button id="modalAddToCart">Add to Cart</button>
+              <button id="modalBuyNow">Buy Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+  </html>
+
+

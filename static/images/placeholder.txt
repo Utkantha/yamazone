@@ -1,0 +1,10 @@
+Add your product JPG images into this folder and update the file names in `app.py`
+or replace the existing dummy file names:
+- echo.jpg
+- headphones.jpg
+- chair.jpg
+- tv.jpg
+- bottle.jpg
+- keyboard.jpg
+
+

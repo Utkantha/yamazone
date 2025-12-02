@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Yamazone Sign In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  </head>
+  <body class="login-page">
+    <header class="top-nav">
+      <div class="logo-area" onclick="window.location.href='/'" style="cursor: pointer;">
+        <span class="logo-main">Yamazone</span>
+      </div>
+      <div class="login-back-link">
+        <a href="/">← Back to Home</a>
+      </div>
+    </header>
+    
+    <div class="login-container">
+
+      <div class="login-box">
+        <h1 class="login-title">Sign in</h1>
+        
+        <form id="loginForm" class="login-form">
+          <div class="form-group">
+            <label for="email">Email or mobile phone number</label>
+            <input 
+              type="text" 
+              id="email" 
+              name="email" 
+              required 
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              required 
+              autocomplete="current-password"
+            />
+          </div>
+
+          <button type="submit" class="btn-signin">Sign in</button>
+        </form>
+
+        <div class="login-help">
+          <div class="help-links">
+            <input type="checkbox" id="keepSignedIn" />
+            <label for="keepSignedIn">Keep me signed in</label>
+          </div>
+          <a href="#" class="help-link">Forgot your password?</a>
+        </div>
+
+        <div class="divider">
+          <span>New to Yamazone?</span>
+        </div>
+
+        <a href="/" class="btn-create-account">Create your Yamazone account</a>
+      </div>
+
+      <div class="login-footer">
+        <div class="footer-links-login">
+          <a href="#">Conditions of Use</a>
+          <a href="#">Privacy Notice</a>
+          <a href="#">Help</a>
+        </div>
+        <p class="copyright">© 2025, Yamazone.com, Inc. or its affiliates</p>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        // Simple validation
+        if (email && password) {
+          alert('Sign in successful! Redirecting...');
+          window.location.href = '/';
+        } else {
+          alert('Please enter both email and password.');
+        }
+      });
+    </script>
+  </body>
+</html>
+
